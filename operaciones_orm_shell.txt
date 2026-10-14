@@ -1,0 +1,66 @@
+python manage.py shell
+
+from reservas.models import ActividadDeportiva, Horario, Inscripcion
+from datetime import time
+
+1. Crear actividades deportivas
+futbol = ActividadDeportiva(nombre="Futbol 5", descripcion="Partidos de futbol reducido en cancha de cesped sintetico", lugar="Cancha Ciudad Universitaria", cupo=10)
+futbol.save()
+voley = ActividadDeportiva(nombre="Voley", descripcion="Entrenamiento y partidos de voley mixto", lugar="Gimnasio UNCa", cupo=12)
+voley.save()
+natacion = ActividadDeportiva.objects.create(nombre="Natacion", descripcion="Clases de natacion para principiantes", lugar="Natatorio Municipal", cupo=15)
+ActividadDeportiva.objects.count()
+3
+
+2. Crear horarios
+h1 = Horario(actividad=futbol, dia="Lunes", hora_inicio=time(18, 0), hora_fin=time(19, 30))
+h1.save()
+h2 = Horario.objects.create(actividad=futbol, dia="Miercoles", hora_inicio=time(20, 0), hora_fin=time(21, 30))
+h3 = Horario.objects.create(actividad=voley, dia="Viernes", hora_inicio=time(17, 0), hora_fin=time(18, 30))
+h1, h2, h3
+(<Horario: Futbol 5 - Lunes 18:00 a 19:30>, <Horario: Futbol 5 - Miércoles 20:00 a 21:30>, <Horario: Voley - Viernes 17:00 a 18:30>)
+
+3. Crear inscripciones
+i1 = Inscripcion(nombre="Juan", apellido="Perez", dni="40123456", horario=h1)
+i1.save()
+i2 = Inscripcion.objects.create(nombre="Maria", apellido="Gomez", dni="41234567", horario=h1)
+i3 = Inscripcion.objects.create(nombre="Carlos", apellido="Lopez", dni="39876543", horario=h2)
+i4 = Inscripcion.objects.create(nombre="Ana", apellido="Diaz", dni="42345678", horario=h3, estado="Cancelada")
+Inscripcion.objects.all()
+<QuerySet [<Inscripcion: Diaz, Ana (DNI 42345678) - Cancelada>, <Inscripcion: Gomez, Maria (DNI 41234567) - Activa>, <Inscripcion: Lopez, Carlos (DNI 39876543) - Activa>, <Inscripcion: Perez, Juan (DNI 40123456) - Activa>]>
+
+4. Consultar todas las actividades deportivas
+ActividadDeportiva.objects.all()
+<QuerySet [<ActividadDeportiva: Futbol 5 (Cancha Ciudad Universitaria) - cupo: 10>, <ActividadDeportiva: Natacion (Natatorio Municipal) - cupo: 15>, <ActividadDeportiva: Voley (Gimnasio UNCa) - cupo: 12>]>
+
+5. Consultar los horarios de una actividad deportiva
+Horario.objects.filter(actividad=futbol)
+<QuerySet [<Horario: Futbol 5 - Lunes 18:00 a 19:30>, <Horario: Futbol 5 - Miércoles 20:00 a 21:30>]>
+
+6. Filtrar inscripciones en estado Activa
+Inscripcion.objects.filter(estado="Activa")
+<QuerySet [<Inscripcion: Gomez, Maria (DNI 41234567) - Activa>, <Inscripcion: Lopez, Carlos (DNI 39876543) - Activa>, <Inscripcion: Perez, Juan (DNI 40123456) - Activa>]>
+
+7. Consultar las inscripciones de un horario
+Inscripcion.objects.filter(horario=h1)
+<QuerySet [<Inscripcion: Gomez, Maria (DNI 41234567) - Activa>, <Inscripcion: Perez, Juan (DNI 40123456) - Activa>]>
+
+8. Modificar el cupo de una actividad deportiva
+futbol = ActividadDeportiva.objects.get(nombre="Futbol 5")
+futbol.cupo = 14
+futbol.save()
+ActividadDeportiva.objects.get(nombre="Futbol 5").cupo
+14
+
+9. Cambiar el estado de una inscripcion de Activa a Cancelada
+insc = Inscripcion.objects.get(dni="41234567")
+insc.estado = "Cancelada"
+insc.save()
+Inscripcion.objects.get(dni="41234567").estado
+'Cancelada'
+
+10. Eliminar una inscripcion
+Inscripcion.objects.get(dni="39876543").delete()
+(1, {'reservas.Inscripcion': 1})
+Inscripcion.objects.all()
+<QuerySet [<Inscripcion: Diaz, Ana (DNI 42345678) - Cancelada>, <Inscripcion: Gomez, Maria (DNI 41234567) - Cancelada>, <Inscripcion: Perez, Juan (DNI 40123456) - Activa>]>
