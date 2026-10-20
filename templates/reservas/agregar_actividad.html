@@ -1,0 +1,40 @@
+{% extends "base/base.html" %}
+{% block titulo %}{% if editando %}Modificación de Actividad Deportiva{% else %}Creación de Actividad Deportiva{% endif %}{% endblock %}
+{% block contenido_principal %}
+    <header id="home" class="d-flex justify-content-center mb-3">
+        <h1>{% if editando %}Modificación de Actividad Deportiva{% else %}Creación de Actividad Deportiva{% endif %}</h1>
+    </header>
+
+    <section aria-label="Mensajes del sistema">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div class="message" role="alert">{{ message }}</div>
+                {% else %}
+                    <div class="message-error" role="alert">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </section>
+
+    <section class="card shadow-sm p-4 mb-4">
+        <form method="post">
+            <div class="row g-3">
+                {% for field in form %}
+                    <div>
+                        {{ field.errors }}
+                        {{ field.label_tag }} {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div><br>
+                {% endfor %}
+                {% csrf_token %}
+            </div>
+            <div class="mt-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'reservas:lista_actividades' %}" class="btn btn-secondary">Ver listado de actividades</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

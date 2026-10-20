@@ -1,0 +1,37 @@
+.errorlist {
+    background-color: #ffb3b3;
+    border: 1px solid #cccccc;
+    padding: 10px;
+    list-style: none;
+    border-radius: 4px;
+    color: #842029;
+    margin-bottom: 8px;
+}
+
+.message {
+    background-color: #cff4fc;
+    border: 1px solid #b6effb;
+    color: #055160;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.message-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    color: #842029;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}

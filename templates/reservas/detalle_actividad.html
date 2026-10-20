@@ -1,0 +1,49 @@
+{% extends "base/base.html" %}
+{% block titulo %}Detalle de Actividad Deportiva{% endblock %}
+{% block contenido_principal %}
+    <header id="home" class="d-flex justify-content-center mb-3">
+        <h1>Detalle de Actividad Deportiva</h1>
+    </header>
+
+    {% if messages %}
+        <section aria-label="Mensajes de confirmación">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div class="message" role="alert">{{ message }}</div>
+                {% else %}
+                    <div class="message-error" role="alert">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        </section>
+    {% endif %}
+
+    <section class="d-flex justify-content-center">
+        <article class="card w-75 mb-3 text-bg-light shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title h4 mb-3">{{ actividad.nombre }}</h2>
+                <p class="card-text"><strong>Identificador (ID): </strong>{{ actividad.id }}</p>
+                <p class="card-text"><strong>Nombre: </strong>{{ actividad.nombre }}</p>
+                <p class="card-text"><strong>Descripción: </strong>{{ actividad.descripcion }}</p>
+                <p class="card-text"><strong>Lugar: </strong>{{ actividad.lugar }}</p>
+                <p class="card-text"><strong>Cupo: </strong>{{ actividad.cupo }} participantes</p>
+                <p class="card-text"><strong>Horarios disponibles: </strong>
+                    {% for horario in actividad.horarios.all %}
+                        *{{ horario.get_dia_display }} ({{ horario.hora_inicio|time:"H:i" }} a {{ horario.hora_fin|time:"H:i" }})
+                    {% empty %}
+                        La actividad no posee horarios asignados.
+                    {% endfor %}
+                </p>
+
+                <hr>
+                <form action="{% url 'reservas:eliminar_actividad' %}" method="POST" class="d-flex gap-2 flex-wrap">
+                    {% csrf_token %}
+                    <input type="hidden" name="id_actividad" value="{{ actividad.id }}">
+                    <a class="btn btn-secondary" href="{% url 'reservas:lista_actividades' %}">Volver al listado</a>
+                    <a class="btn btn-primary" href="{% url 'reservas:editar_actividad' actividad.id %}">Editar</a>
+                    <input type="submit" value="Eliminar" class="btn btn-danger"
+                        onclick="return confirm('¿Está seguro que desea eliminar la Actividad Deportiva?');">
+                </form>
+            </div>
+        </article>
+    </section>
+{% endblock %}

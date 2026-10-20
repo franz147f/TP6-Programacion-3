@@ -1,0 +1,16 @@
+{% extends "base/base.html" %}
+{% block titulo %}Aplicación Web de Deportes UNCA{% endblock %}
+{% block contenido_principal %}
+    <header id="home">
+        <h1>Aplicación Web de Deportes UNCA</h1>
+        <p>Aquí encontrará todas las actividades deportivas disponibles en la plataforma.</p>
+    </header>
+    <section id="actividades" class="mt-4 mb-5">
+        <p>Para consultar el listado de Actividades Deportivas ingrese al siguiente link:
+            <a href="{% url 'reservas:lista_actividades' %}">Actividades Deportivas</a>
+        </p>
+        <p>Para registrar una nueva Actividad Deportiva ingrese al siguiente link:
+            <a href="{% url 'reservas:agregar_actividad' %}">Agregar Actividad Deportiva</a>
+        </p>
+    </section>
+{% endblock %}
