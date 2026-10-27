@@ -9,8 +9,10 @@
         <p>Para consultar el listado de Actividades Deportivas ingrese al siguiente link:
             <a href="{% url 'reservas:lista_actividades' %}">Actividades Deportivas</a>
         </p>
+        {% if perms.reservas.add_actividaddeportiva %}
         <p>Para registrar una nueva Actividad Deportiva ingrese al siguiente link:
             <a href="{% url 'reservas:agregar_actividad' %}">Agregar Actividad Deportiva</a>
         </p>
+        {% endif %}
     </section>
 {% endblock %}

@@ -30,13 +30,23 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'reservas:lista_actividades' %}">Actividades</a>
                     </li>
+                    {% if perms.reservas.add_actividaddeportiva %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'reservas:agregar_actividad' %}">Agregar Actividad</a>
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="#contacto">Contacto</a>
                     </li>
                 </ul>
+                <span class="navbar-text ms-auto">
+                    {% if user.is_authenticated %}
+                        {{ user.username }}
+                        <a class="btn btn-outline-success ms-2 me-2" href="{% url 'usuario:logout' %}">Cerrar sesión</a>
+                    {% else %}
+                        <a class="btn btn-outline-success me-2" href="{% url 'usuario:login' %}">Iniciar sesión</a>
+                    {% endif %}
+                </span>
             </div>
         </div>
     </nav>

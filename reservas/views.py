@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -7,6 +8,8 @@ from reservas.models import ActividadDeportiva
 
 
 # 1. Vista para registrar una nueva actividad deportiva (/actividades/agregar/)
+@login_required(login_url='usuario:login')
+@permission_required('reservas.add_actividaddeportiva', raise_exception=True)
 def agregar_actividad(request):
     nueva_actividad = None
     if request.method == 'POST':
@@ -42,6 +45,8 @@ def detalle_actividad(request, pk):
 
 
 # Vista para modificar una actividad deportiva (según teoría CRUD - Update)
+@login_required(login_url='usuario:login')
+@permission_required('reservas.change_actividaddeportiva', raise_exception=True)
 def editar_actividad(request, pk):
     actividad = get_object_or_404(ActividadDeportiva, pk=pk)
     if request.method == 'POST':
@@ -61,6 +66,8 @@ def editar_actividad(request, pk):
 
 
 # Vista para eliminar una actividad deportiva (según teoría CRUD - Delete)
+@login_required(login_url='usuario:login')
+@permission_required('reservas.delete_actividaddeportiva', raise_exception=True)
 def eliminar_actividad(request):
     if request.method == 'POST':
         if 'id_actividad' in request.POST:

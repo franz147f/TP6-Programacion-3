@@ -6,9 +6,11 @@
             <h1>Listado de Actividades Deportivas Registradas</h1>
             <p class="text-muted mb-0">Aquí encontrará las actividades deportivas disponibles en la plataforma.</p>
         </div>
+        {% if perms.reservas.add_actividaddeportiva %}
         <a href="{% url 'reservas:agregar_actividad' %}" class="btn btn-success">
             + Agregar Actividad
         </a>
+        {% endif %}
     </header>
 
     {% if messages %}
